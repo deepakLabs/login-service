@@ -1,4 +1,4 @@
-package com.platform.loginservice.domain;
+package com.platform.loginservice.dto;
 
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -8,6 +8,6 @@ public class UserTest {
 
     @Test
     public void setUsername(){
-        val user = new User();
+        val user = new UserDto();
     }
 }
