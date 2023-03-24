@@ -1,6 +1,7 @@
 package com.platform.loginservice.entity;
 
 import com.platform.loginservice.dto.UserDto;
+import com.platform.loginservice.util.PasswordEncyrption;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,11 +10,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private final String username;
-    private final String password;
-    private final String emailAddress;
+    private String username;
+    private String password;
+    private String emailAddress;
 
-    public User(String username, String password, String repeatPassword, String emailAddress) {
+    public User() {
+    }
+
+    public User(String username, String password, String emailAddress) {
         this.username = username;
         this.password = password;
         this.emailAddress = emailAddress;
@@ -21,7 +25,7 @@ public class User {
 
     public User(UserDto userDto){
         this.emailAddress = userDto.getEmailAddress();
-        this.password = userDto.getPassword();
+        this.password = PasswordEncyrption.hashPassword(userDto.getPassword());
         this.username = userDto.getUsername();
     }
 
