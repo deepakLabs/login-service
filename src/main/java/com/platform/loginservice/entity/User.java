@@ -3,9 +3,11 @@ package com.platform.loginservice.entity;
 import com.platform.loginservice.dto.UserDto;
 import com.platform.loginservice.util.PasswordEncyrption;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name="users")
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

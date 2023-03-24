@@ -1,5 +1,6 @@
 package com.platform.loginservice.controller;
 
+import com.platform.loginservice.exception.InvalidLoginException;
 import com.platform.loginservice.exception.PasswordMismatchException;
 import com.platform.loginservice.exception.UserExistsException;
 import org.springframework.http.HttpStatus;
@@ -17,5 +18,10 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(UserExistsException.class)
     public ResponseEntity<String> handleUserExistsException(final UserExistsException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidLoginException.class)
+    public ResponseEntity<String> handleInvalidLoginException(final InvalidLoginException exception){
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.UNAUTHORIZED);
     }
 }
