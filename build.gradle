@@ -2,7 +2,9 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.4'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
+
 
 group = 'com.platform'
 version = '0.0.1'
@@ -17,6 +19,7 @@ ext{
 	lombokVersion = '1.18.26'
 	sqlVersion = '8.0.32'
 	bcryptVersion = '0.3'
+	dockerSrcDir = 'build/docker'
 }
 
 dependencies {
@@ -34,6 +37,24 @@ dependencies {
 	testImplementation("org.projectlombok:lombok:${lombokVersion}")
 	testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 
+}
+
+bootJar{
+	manifest {
+		attributes 'Implementation-Title':'Platform Login Service',
+		'Implementation-Version':version,
+		'Build-Time': new Date().format("yyy-mm-dd'T'HH:mm:ssZ")
+	}
+}
+
+// locates the bootjar into a specified path
+// use this path as reference to dockerFile
+task copyJar(type: Copy) {
+	dependsOn bootJar
+	from bootJar.archivePath
+	into "${dockerSrcDir}/rootfs/app"
+	rename { String fileName -> fileName.replace("${project.name}-${project.version}", "${project.name}")
+	}
 }
 
 tasks.named('test') {
